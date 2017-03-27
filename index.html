@@ -52,7 +52,7 @@ var right=false;
 
 
 function create() {
-	if(!game.device.desktop){
+	if(!this.game.device.desktop){
 			game.input.onDown.add(gofull, this);
 			buttonjump = game.add.button(600, 500, 'buttonjump', null, this, 0, 1, 0, 1); 
 		    buttonjump.fixedToCamera = true;
