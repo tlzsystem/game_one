@@ -94,6 +94,7 @@ function create() {
 
 	if(!game.device.desktop){
 			game.input.onDown.add(gofull, this);
+			game.scale.startFullScreen(false);
 			buttonjump = game.add.button(600, 450, 'buttonjump', null, this, 0, 1, 0, 1); 
 		    buttonjump.fixedToCamera = true;
 		    buttonjump.events.onInputOver.add(function(){jump=true;});
