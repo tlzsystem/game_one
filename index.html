@@ -21,12 +21,17 @@ var game = new Phaser.Game(768, 512, Phaser.AUTO, '', {
 
 function preload() {
 	game.load.image('star','star.png');
-	//game.load.spritesheet('mono','character.png',150,117);
 	game.load.spritesheet('mono','dude.png',32, 48);
 	game.load.spritesheet('enemigo','enemigo1.png',32, 48);
 	game.load.image('ground', 'platform.png');
-	
 	game.load.image('fondo','jungle.png');
+	game.load.spritesheet('buttonhorizontal','button-horizontal.png',64,64);
+	game.load.spritesheet('buttondiagonal', 'button-diagonal.png',64,64);
+	game.load.spritesheet('buttonjump','button-round-b.png',96,96);
+	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+	game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+
+
 }
 
 var player;
@@ -41,8 +46,51 @@ var scoreEnemy = 0;
 var scoreEnemyText;
 var fix = false;
 
+var jump=false;
+var left=false;
+var right=false;
+
 
 function create() {
+	if(!game.device.desktop){
+			game.input.onDown.add(gofull, this);
+			buttonjump = game.add.button(600, 500, 'buttonjump', null, this, 0, 1, 0, 1); 
+		    buttonjump.fixedToCamera = true;
+		    buttonjump.events.onInputOver.add(function(){jump=true;});
+		    buttonjump.events.onInputOut.add(function(){jump=false;});
+		    buttonjump.events.onInputDown.add(function(){jump=true;});
+		    buttonjump.events.onInputUp.add(function(){jump=false;});
+
+
+		    buttonleft = game.add.button(0, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+		    buttonleft.fixedToCamera = true;
+		    buttonleft.events.onInputOver.add(function(){left=true;});
+		    buttonleft.events.onInputOut.add(function(){left=false;});
+		    buttonleft.events.onInputDown.add(function(){left=true;});
+		    buttonleft.events.onInputUp.add(function(){left=false;});
+
+		    buttonbottomleft = game.add.button(32, 536, 'buttondiagonal', null, this, 6, 4, 6, 4);
+		    buttonbottomleft.fixedToCamera = true;
+		    buttonbottomleft.events.onInputOver.add(function(){left=true;});
+		    buttonbottomleft.events.onInputOut.add(function(){left=false;});
+		    buttonbottomleft.events.onInputDown.add(function(){left=true;});
+		    buttonbottomleft.events.onInputUp.add(function(){left=false;});
+
+
+		    buttonright = game.add.button(160, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+		    buttonright.fixedToCamera = true;
+		    buttonright.events.onInputOver.add(function(){right=true;});
+		    buttonright.events.onInputOut.add(function(){right=false;});
+		    buttonright.events.onInputDown.add(function(){right=true;});
+		    buttonright.events.onInputUp.add(function(){right=false;});
+
+		    buttonbottomright = game.add.button(160, 536, 'buttondiagonal', null, this, 7, 5, 7, 5);
+		    buttonbottomright.fixedToCamera = true;
+		    buttonbottomright.events.onInputOver.add(function(){right=true;});
+		    buttonbottomright.events.onInputOut.add(function(){right=false;});
+		    buttonbottomright.events.onInputDown.add(function(){right=true;});
+		    buttonbottomright.events.onInputUp.add(function(){right=false;});
+	}
 
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 	game.add.sprite(0,0,'fondo');
@@ -52,20 +100,12 @@ function create() {
 	game.physics.arcade.enable(enemigo);
 
 	platforms = game.add.group();
-
-    //  We will enable physics for any object that is created in this group
     platforms.enableBody = true;
 
-    // Here we create the ground.
     var ground = platforms.create(0, game.world.height - 1, 'ground');
-
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
     ground.scale.setTo(2, 2);
-
-    //  This stops it from falling away when you jump on it
     ground.body.immovable = true;
 
-    //  Now let's create two ledges
     var ledge = platforms.create(400, 400, 'ground');
     ledge.body.immovable = true;
 
@@ -90,6 +130,8 @@ function create() {
 
     stars = game.add.group();
     stars.enableBody = true;
+
+    
    
     createStar();
 
@@ -112,19 +154,18 @@ function update() {
 	player.body.velocity.x = 0;
 	enemigo.body.velocity.x = 0;
 
-	
 
-	if(cursors.left.isDown){
+	if(cursors.left.isDown || left ){
 		player.body.velocity.x = -150;
 		player.animations.play('left');
-	}else if(cursors.right.isDown){
+	}else if(cursors.right.isDown || right){
 		player.body.velocity.x = 150;
 		player.animations.play('right');
 	}else{
 		player.animations.stop();
-		player.frame = 0;
+		player.frame = 4;
 	}
-	 if (cursors.up.isDown && player.body.touching.down)
+	 if ((cursors.up.isDown && player.body.touching.down) || (jump && player.body.touching.down)) 
     {
         player.body.velocity.y = -300;
     }
@@ -202,6 +243,10 @@ function moveEnemy(player, enemigo, star){
 			}
 		}
 
+}
+
+function gofull(){
+	game.scale.startFullScreen(false);
 }
 
 </script>
