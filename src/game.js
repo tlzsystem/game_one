@@ -24,23 +24,167 @@ BasicGame.Game = function (game) {
 
 };
 
+var player;
+var enemigo;
+var platforms;
+var cursors;
+var weapon;
+var fireButton;
+var stars;
+var score = 0;
+var scoreText;
+var scoreEnemy = 0;
+var scoreEnemyText;
+var fix = false;
+var jump=false;
+var left=false;
+var right=false;
+var enemyleft = false;
+var enemyright = false;
+
+
 BasicGame.Game.prototype = {
 
 	create: function () {
         var self = this;
 
 		this.score = 42;
-
 		this.add.sprite(0, 0, 'fondo');
         var headY = 25 + 60 / 2;
         this.pauseButton = this.add.button(25 + (60 / 2), headY, 'pause', function() { self.pause(); });
         this.pauseButton.anchor.setTo(0.5, 0.5);
-
 		this.scoreboard = new Scoreboard(this.game);
 		this.add.existing(this.scoreboard);
-
         this.pauseboard = new Pauseboard(this.game);
         this.add.existing(this.pauseboard);
+
+        this.physics.startSystem(Phaser.Physics.ARCADE);
+        player = this.add.sprite(100, 100, 'mono');
+        enemigo = this.add.sprite(700,100 , 'enemigo')
+        this.physics.arcade.enable(player);
+        this.physics.arcade.enable(enemigo);
+
+        weapon = this.add.weapon(2, 'bullet');
+        weapon.bulletKillTYpe = Phaser.Weapon.KILL_WORLD_BOUNDS;
+        weapon.bulletSpeed = 300;
+        weapon.fireRate = 500;
+        weapon.trackSprite(player, 0, 25, false);
+
+        weapon_enemy = this.add.weapon(2, 'bullet');
+        weapon_enemy.bulletKillTYpe = Phaser.Weapon.KILL_WORLD_BOUNDS;
+        weapon_enemy.bulletSpeed = 300;
+        weapon_enemy.fireRate = 500;
+        weapon_enemy.trackSprite(enemigo, 0, 25, false);
+
+
+        platforms = this.add.group();
+        platforms.enableBody = true;
+
+        var ground = platforms.create(0, this.world.height - 20, 'ground');
+        ground.scale.setTo(2, 2);
+        ground.body.immovable = true;
+
+        var ledge = platforms.create(400, 300, 'ground');
+        ledge.body.immovable = true;
+
+        ledge = platforms.create(-150, 200, 'ground');
+        ledge.body.immovable = true;
+
+
+        player.body.bounce.y = 0.2;
+        player.body.gravity.y = 300;
+        player.body.collideWorldBounds = true;
+
+        player.animations.add('left', [0, 1, 2, 3], 10, true);
+        player.animations.add('right', [5, 6, 7, 8], 10, true);
+
+
+        enemigo.body.bounce.y = 0.2;
+        enemigo.body.gravity.y = 300;
+        enemigo.body.collideWorldBounds = true;
+
+        enemigo.animations.add('left', [9, 10, 11], 10, true);
+        enemigo.animations.add('right', [6, 7, 8], 10, true);
+
+        stars = this.add.group();
+        stars.enableBody = true;
+
+
+
+     if(!this.game.device.desktop){
+            this.game.input.onDown.add(this.gofull, this);
+            this.game.scale.startFullScreen(false);
+            buttonjump = this.game.add.button(600, 450, 'buttonjump', null, this, 0, 1, 0, 1); 
+            buttonjump.fixedToCamera = true;
+            buttonjump.events.onInputOver.add(function(){jump=true;});
+            buttonjump.events.onInputOut.add(function(){jump=false;});
+            buttonjump.events.onInputDown.add(function(){jump=true;});
+            buttonjump.events.onInputUp.add(function(){jump=false;});
+
+
+            buttonleft = this.game.add.button(0, 422, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+            buttonleft.fixedToCamera = true;
+            buttonleft.events.onInputOver.add(function(){left=true;});
+            buttonleft.events.onInputOut.add(function(){left=false;});
+            buttonleft.events.onInputDown.add(function(){left=true;});
+            buttonleft.events.onInputUp.add(function(){left=false;});
+
+            buttonbottomleft = this.game.add.button(32, 486, 'buttondiagonal', null, this, 6, 4, 6, 4);
+            buttonbottomleft.fixedToCamera = true;
+            buttonbottomleft.events.onInputOver.add(function(){left=true;});
+            buttonbottomleft.events.onInputOut.add(function(){left=false;});
+            buttonbottomleft.events.onInputDown.add(function(){left=true;});
+            buttonbottomleft.events.onInputUp.add(function(){left=false;});
+
+
+            buttonright = this.game.add.button(160, 422, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+            buttonright.fixedToCamera = true;
+            buttonright.events.onInputOver.add(function(){right=true;});
+            buttonright.events.onInputOut.add(function(){right=false;});
+            buttonright.events.onInputDown.add(function(){right=true;});
+            buttonright.events.onInputUp.add(function(){right=false;});
+
+            buttonbottomright = this.game.add.button(160, 486, 'buttondiagonal', null, this, 7, 5, 7, 5);
+            buttonbottomright.fixedToCamera = true;
+            buttonbottomright.events.onInputOver.add(function(){right=true;});
+            buttonbottomright.events.onInputOut.add(function(){right=false;});
+            buttonbottomright.events.onInputDown.add(function(){right=true;});
+            buttonbottomright.events.onInputUp.add(function(){right=false;});
+        
+    }
+
+    var barConfig = {x:200, y:100};
+
+   
+    this.createStar();
+
+    scoreText = this.add.text(16, 16, 'Player Score: 0', { fontSize: '16px', fill: '#000' });
+    scoreEnemyText = this.add.text(16, 32, 'Enemy Score: 0', { fontSize: '16px', fill: '#000' });
+
+    cursors = this.input.keyboard.createCursorKeys();
+    fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
+
+
+    player.health = 100;
+    player.maxHealth = 100;
+
+    enemigo.health = 100;
+    enemigo.maxHealth = 100;
+
+    playerHealthMeter = this.game.add.plugin(Phaser.Plugin.HealthMeter);
+    playerHealthMeter.bar(
+        player,
+        {x: 20, y: 100, width: 200, height: 20}
+    );
+
+    enemigoHealthMeter = this.game.add.plugin(Phaser.Plugin.HealthMeter);
+    enemigoHealthMeter.bar(
+        enemigo,
+        {x: 500, y: 100, width: 200, height: 20}
+    );
+
+
+
 	},
 
     pause: function() {
@@ -56,13 +200,47 @@ BasicGame.Game.prototype = {
 
 	update: function () {
 
-		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+        this.physics.arcade.collide(player, platforms);
+        this.physics.arcade.collide(enemigo, platforms);
+        this.physics.arcade.collide(stars, platforms);
+
+        this.physics.arcade.overlap(player, stars, this.collectStar, null, this);
+        this.physics.arcade.overlap(enemigo, stars, this.collecStartEnemy, null, this);
+
+        this.physics.arcade.overlap(player,weapon_enemy.bullets , this.hitPlayer, null, this  );
+        this.physics.arcade.overlap(enemigo,weapon.bullets ,this.hitEnemy, null, this  );
+
+        player.body.velocity.x = 0;
+        enemigo.body.velocity.x = 0;
 
 
+        if(cursors.left.isDown || left ){
+            player.body.velocity.x = -150;
+            player.animations.play('left');
+        }else if(cursors.right.isDown || right){
+            player.body.velocity.x = 150;
+            player.animations.play('right');
+        }else{
+            player.animations.stop();
+            player.frame = 4;
+        }
+         if ((cursors.up.isDown && player.body.touching.down) || (jump && player.body.touching.down)) 
+        {
+            player.body.velocity.y = -300;
+        }
+
+        if(fireButton.isDown){
+            if(cursors.left.isDown || left ){
+                weapon.fireAngle = Phaser.ANGLE_LEFT;
+            }else if(cursors.right.isDown || right){
+                weapon.fireAngle = Phaser.ANGLE_RIGHT;
+            }
+            weapon.fire();
+        }
 
 
-
-        
+    this.moveEnemy(player, enemigo, stars);
+    this.fireEnemy(player, enemigo);
 
 	},
 
@@ -73,6 +251,104 @@ BasicGame.Game.prototype = {
 
 		//	Then let's go back to the main menu.
 		this.state.start('MainMenu');
-	}
+	},
 
+    createStar: function(){
+        stars.remove(stars.children[stars.length - 1]);
+        var star = stars.create(Math.floor(Math.random() * (760 - 0)) + 0, 0, 'star');
+        star.body.gravity.y = 300;
+        star.body.bounce.y = 0.7 + Math.random() * 0.2;
+    },
+
+    gofull: function(){
+        this.game.scale.startFullScreen(false);
+    },
+    collectStar: function (player, star){
+        star.kill();
+        score += 10;
+        scoreText.text = 'Player Score: ' + score;
+        this.createStar();
+    },
+    collecStartEnemy: function(enemigo, star){
+        star.kill();
+        scoreEnemy+=10;
+        scoreEnemyText.text = 'Enemy Score: '+scoreEnemy;
+        this.createStar();
+    },
+    hitPlayer: function(player, bullets){
+        bullets.kill();
+        player.health = player.health - 10;
+
+    },
+    hitEnemy: function(enemigo, bullets){
+        bullets.kill();
+        enemigo.health = enemigo.health - 10;
+    },
+    moveEnemy: function(player, enemigo, star){
+        
+        if(fix==false){
+            if(star.children[star.length - 1].x == enemigo.x){
+                enemigo.animations.stop();
+                enemigo.body.velocity.x = 0;
+                enemyleft = false;
+                enemyright = false;
+            }else{
+                if(star.children[star.length - 1].x > enemigo.x + 15){
+                    enemigo.body.velocity.x = 150;
+                    enemigo.animations.play('right');
+                    enemyright = true;
+                }else if(star.children[star.length - 1].x + 15 < enemigo.x ){
+                    enemigo.body.velocity.x = -150;
+                    enemigo.animations.play('left');
+                    enemyleft = true;
+
+                }else{
+                    enemigo.animations.stop();
+                    enemigo.frame = 0;
+                    enemigo.body.velocity.x = 0;
+                    enemyleft = false;
+                    enemyright = false;
+                }
+                if(star.children[star.length - 1].y < enemigo.y && enemigo.body.touching.down){
+                    enemigo.body.velocity.y = -300;
+
+                }
+
+                if(star.children[star.length - 1].y<300 && enemigo.x < 250 && enemigo.y > 352){
+                    console.log('le vamos a poner true');
+                    fix = true;
+                    enemigo.body.velocity.x = 150;
+                    if (enemigo.body.touching.down){
+                        fix = true;
+                        enemigo.body.velocity.x = 150;
+                        enemigo.body.velocity.y = -300;
+                    }   
+                    enemigo.animations.play('right');
+                }
+            }
+        }   
+            if(fix==true){
+                enemigo.body.velocity.x = 150;
+                
+                    enemigo.body.velocity.y = -300;
+            
+                if(enemigo.y<352 && enemigo.x>250){
+                    fix=false;
+                    console.log('ahora quedo en false');
+                }
+            }
+
+    },
+    fireEnemy: function(player, enemigo){
+
+        if (player.y + 20 >= enemigo.y && player.y - 20 <= enemigo.y){
+            if(player.x < enemigo.x){
+                weapon_enemy.fireAngle = Phaser.ANGLE_LEFT;
+            }else{
+                weapon_enemy.fireAngle = Phaser.ANGLE_RIGHT;
+            }
+
+            weapon_enemy.fire();
+        }
+    }
 };

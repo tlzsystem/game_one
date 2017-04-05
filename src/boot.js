@@ -35,6 +35,7 @@ BasicGame.Boot.prototype = {
 		BasicGame.orientated = true;
 		//this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		this.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 		this.scale.minWidth = this.game.width / 2;
 		this.scale.minHeight = this.game.height / 2;
 		this.scale.pageAlignHorizontally = true;

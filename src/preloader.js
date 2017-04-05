@@ -52,8 +52,20 @@ BasicGame.Preloader.prototype = {
 		this.load.image('background', 'assets/background.png');
 		this.load.image('board', 'assets/board.png');
 
+		this.load.image('star','assets/star.png');
+		this.load.spritesheet('mono','assets/dude.png',32, 48);
+		this.load.spritesheet('enemigo','assets/enemigo1.png',32, 48);
+		this.load.image('ground', 'assets/platform.png');
+		this.load.image('fondo','assets/jungle.png');
+		this.load.image('bullet','assets/shmup-bullet.png')
+		this.load.spritesheet('buttonhorizontal','assets/button-horizontal.png',64,64);
+		this.load.spritesheet('buttondiagonal', 'assets/button-diagonal.png',64,64);
+		this.load.spritesheet('buttonjump','assets/button-round-b.png',96,96);
+
+
+
         // GAME
-        this.load.image('gameover', 'images/gameover.png');
+        this.load.image('gameover', 'assets/gameover.png');
 	},
 
 	create: function () {
