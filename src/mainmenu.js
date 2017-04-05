@@ -20,17 +20,16 @@ BasicGame.MainMenu.prototype = {
         this.game.menuSelect = this.add.audio('menuSelect');
 
         this.background = this.add.sprite(0, 0, 'backgroundMenu');
-		var titlePaddingTop = 150;
-        this.title = this.add.sprite(this.game.width / 2, titlePaddingTop, 'title');
-        this.title.anchor.setTo(0.5, 0);
+		var titlePaddingTop = 10;
+
 
         var soundX = 25, soundY = 25;
         this.soundButonOn = this.add.button(soundX, soundY, 'soundOn', function() { self.switchSound(); });
         this.soundButonOff = this.add.button(soundX, soundY, 'soundOff', function() { self.switchSound(); });
         this.soundButonOff.visible = false;
 
-		var playHeight = 200;
-		var playPadding = 40;
+		var playHeight = 150;
+		var playPadding = 30;
 		this.playButton = this.add.button(
 			this.game.width / 2,
 			this.game.height - playHeight / 2 - playPadding - this.game.paddingBot,

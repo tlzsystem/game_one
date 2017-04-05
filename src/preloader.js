@@ -35,24 +35,22 @@ BasicGame.Preloader.prototype = {
 		//	Here we load the rest of the assets our game needs.
 		//	As this is just a Project Template I've not provided these assets, the lines below won't work as the files themselves will 404, they are just an example of use.
 		// this.load.atlas('playButton', 'images/button_sprite_sheet.png', 'images/button_sprite_sheet.json');
-        this.load.image('ga', 'images/ga.png');
+        this.load.image('ga', 'assets/ga.png');
         this.load.audio('gaHeartbeat', ['audio/heartbeat.mp3', 'audio/heartbeat.ogg']);
-
-        this.load.image('title', 'images/title.png');
-        this.load.image('backgroundMenu', 'assets/jungle.png');
-        this.load.image('play', 'images/control-play.png');
+        this.load.image('backgroundMenu', 'assets/preLoader_background_2.png');
+        this.load.image('play', 'assets/control-play.png');
         this.load.audio('menuSelect', ['audio/menuselect.mp3', 'audio/menuselect.ogg']);
-        this.load.image('soundOn', 'images/control-sound-on.png');
-        this.load.image('soundOff', 'images/control-sound-off.png');
-        this.load.image('pause', 'images/control-pause.png');
-        this.load.image('home', 'images/control-home.png');
-        this.load.image('restart', 'images/control-restart.png');
+        this.load.image('soundOn', 'assets/control-sound-on.png');
+        this.load.image('soundOff', 'assets/control-sound-off.png');
+        this.load.image('pause', 'assets/control-pause.png');
+        this.load.image('home', 'assets/control-home.png');
+        this.load.image('restart', 'assets/control-restart.png');
 
 		this.load.audio('titleMusic', ['audio/main_menu.mp3']);
 		this.load.bitmapFont('gameFont', 'fonts/desyrel-pink.png', 'fonts/desyrel-pink.xml');
 		//	+ lots of other required assets here
-		this.load.image('background', 'images/background.png');
-		this.load.image('board', 'images/board.png');
+		this.load.image('background', 'assets/background.png');
+		this.load.image('board', 'assets/board.png');
 
         // GAME
         this.load.image('gameover', 'images/gameover.png');
