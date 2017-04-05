@@ -42,7 +42,8 @@ BasicGame.Boot.prototype = {
 		{
 			this.scale.maxWidth = this.game.width;
 			this.scale.maxHeight = this.game.height;
-			this.game.scale.setScreenSize(true);
+			//this.scale.setScreenSize(true);
+			Phaser.ScaleManager.prototype.setScreenSize = Phaser.ScaleManager.prototype.updateLayout;
 		}
 		else
 		{
