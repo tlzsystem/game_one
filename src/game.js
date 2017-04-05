@@ -39,6 +39,7 @@ var fix = false;
 var jump=false;
 var left=false;
 var right=false;
+var fire = false;
 var enemyleft = false;
 var enemyright = false;
 
@@ -114,13 +115,20 @@ BasicGame.Game.prototype = {
      if(!this.game.device.desktop){
             this.game.input.onDown.add(this.gofull, this);
             this.game.scale.startFullScreen(false);
-            buttonjump = this.game.add.button(600, this.world.height - 95, 'buttonjump', null, this, 0, 1, 0, 1); 
+
+            buttonjump = this.game.add.button(this.world.width - 100, this.world.height - 95, 'buttonjump', null, this, 0, 1, 0, 1); 
             buttonjump.fixedToCamera = true;
             buttonjump.events.onInputOver.add(function(){jump=true;});
             buttonjump.events.onInputOut.add(function(){jump=false;});
             buttonjump.events.onInputDown.add(function(){jump=true;});
             buttonjump.events.onInputUp.add(function(){jump=false;});
 
+            buttonfire = this.game.add.button(this.world.width - 200, this.world.height - 95, 'buttonfire', null, this, 0, 1, 0, 1); 
+            buttonfire.fixedToCamera = true;
+            buttonfire.events.onInputOver.add(function(){fire=true;});
+            buttonfire.events.onInputOut.add(function(){fire=false;});
+            buttonfire.events.onInputDown.add(function(){fire=true;});
+            buttonfire.events.onInputUp.add(function(){fire=false;});
 
             buttonleft = this.game.add.button(32, this.world.height - 95, 'buttonhorizontal', null, this, 0, 1, 0, 1);
             buttonleft.fixedToCamera = true;
@@ -229,7 +237,7 @@ BasicGame.Game.prototype = {
             player.body.velocity.y = -300;
         }
 
-        if(fireButton.isDown){
+        if(fireButton.isDown || fire){
             if(cursors.left.isDown || left ){
                 weapon.fireAngle = Phaser.ANGLE_LEFT;
             }else if(cursors.right.isDown || right){

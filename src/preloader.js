@@ -61,7 +61,7 @@ BasicGame.Preloader.prototype = {
 		this.load.spritesheet('buttonhorizontal','assets/button-horizontal.png',64,64);
 		this.load.spritesheet('buttondiagonal', 'assets/button-diagonal.png',64,64);
 		this.load.spritesheet('buttonjump','assets/button-round-b.png',96,96);
-
+		this.load.spritesheet('buttonfire','assets/button-round-a.png',96,96);
 
 
         // GAME
