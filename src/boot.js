@@ -42,7 +42,7 @@ BasicGame.Boot.prototype = {
 		{
 			this.scale.maxWidth = this.game.width;
 			this.scale.maxHeight = this.game.height;
-			this.scale.setScreenSize(true);
+			this.game.scale.setScreenSize(true);
 		}
 		else
 		{
