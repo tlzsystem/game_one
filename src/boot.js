@@ -43,7 +43,7 @@ BasicGame.Boot.prototype = {
 			this.scale.maxWidth = this.game.width;
 			this.scale.maxHeight = this.game.height;
 			//this.scale.setScreenSize(true);
-			Phaser.ScaleManager.prototype.setScreenSize = Phaser.ScaleManager.prototype.updateLayout;
+			
 		}
 		else
 		{
@@ -53,9 +53,9 @@ BasicGame.Boot.prototype = {
 			this.scale.setResizeCallback(this.gameResized, this);
 			this.scale.enterIncorrectOrientation.add(this.enterIncorrectOrientation, this);
 			this.scale.leaveIncorrectOrientation.add(this.leaveIncorrectOrientation, this);
-			this.scale.setScreenSize(true);
+			//this.scale.setScreenSize(true);
 		}
-
+		Phaser.ScaleManager.prototype.setScreenSize = Phaser.ScaleManager.prototype.updateLayout;
 		this.state.start('CheckOrientation');
 	},
 
@@ -79,7 +79,7 @@ BasicGame.Boot.prototype = {
 		BasicGame.orientated = true;
 
 		document.getElementById('orientation').style.display = 'none';
-		this.scale.setScreenSize(true);
-
+//		this.scale.setScreenSize(true);
+		Phaser.ScaleManager.prototype.setScreenSize = Phaser.ScaleManager.prototype.updateLayout;
 	}
 };
