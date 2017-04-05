@@ -20,8 +20,6 @@ BasicGame.MainMenu.prototype = {
         this.game.menuSelect = this.add.audio('menuSelect');
 
         this.background = this.add.sprite(0, 0, 'backgroundMenu');
-		var titlePaddingTop = 10;
-
 
         var soundX = 25, soundY = 25;
         this.soundButonOn = this.add.button(soundX, soundY, 'soundOn', function() { self.switchSound(); });
@@ -29,10 +27,10 @@ BasicGame.MainMenu.prototype = {
         this.soundButonOff.visible = false;
 
 		var playHeight = 150;
-		var playPadding = 30;
+		var playPadding = 5;
 		this.playButton = this.add.button(
 			this.game.width / 2,
-			this.game.height - playHeight / 2 - playPadding - this.game.paddingBot,
+			this.game.height - playHeight / 2 ,
 			'play',
 			this.startGame,
 			this);

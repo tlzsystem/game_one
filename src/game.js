@@ -84,10 +84,10 @@ BasicGame.Game.prototype = {
         ground.scale.setTo(2, 2);
         ground.body.immovable = true;
 
-        var ledge = platforms.create(400, 300, 'ground');
+        var ledge = platforms.create(400, this.world.height - 220, 'ground');
         ledge.body.immovable = true;
 
-        ledge = platforms.create(-150, 200, 'ground');
+        ledge = platforms.create(-150, this.world.height - 120, 'ground');
         ledge.body.immovable = true;
 
 
@@ -114,7 +114,7 @@ BasicGame.Game.prototype = {
      if(!this.game.device.desktop){
             this.game.input.onDown.add(this.gofull, this);
             this.game.scale.startFullScreen(false);
-            buttonjump = this.game.add.button(600, 450, 'buttonjump', null, this, 0, 1, 0, 1); 
+            buttonjump = this.game.add.button(600, this.world.height - 95, 'buttonjump', null, this, 0, 1, 0, 1); 
             buttonjump.fixedToCamera = true;
             buttonjump.events.onInputOver.add(function(){jump=true;});
             buttonjump.events.onInputOut.add(function(){jump=false;});
@@ -122,14 +122,14 @@ BasicGame.Game.prototype = {
             buttonjump.events.onInputUp.add(function(){jump=false;});
 
 
-            buttonleft = this.game.add.button(0, 422, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+            buttonleft = this.game.add.button(32, this.world.height - 95, 'buttonhorizontal', null, this, 0, 1, 0, 1);
             buttonleft.fixedToCamera = true;
             buttonleft.events.onInputOver.add(function(){left=true;});
             buttonleft.events.onInputOut.add(function(){left=false;});
             buttonleft.events.onInputDown.add(function(){left=true;});
             buttonleft.events.onInputUp.add(function(){left=false;});
 
-            buttonbottomleft = this.game.add.button(32, 486, 'buttondiagonal', null, this, 6, 4, 6, 4);
+            buttonbottomleft = this.game.add.button(32, this.world.height - 51, 'buttondiagonal', null, this, 6, 4, 6, 4);
             buttonbottomleft.fixedToCamera = true;
             buttonbottomleft.events.onInputOver.add(function(){left=true;});
             buttonbottomleft.events.onInputOut.add(function(){left=false;});
@@ -137,14 +137,14 @@ BasicGame.Game.prototype = {
             buttonbottomleft.events.onInputUp.add(function(){left=false;});
 
 
-            buttonright = this.game.add.button(160, 422, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+            buttonright = this.game.add.button(160, this.world.height - 95, 'buttonhorizontal', null, this, 0, 1, 0, 1);
             buttonright.fixedToCamera = true;
             buttonright.events.onInputOver.add(function(){right=true;});
             buttonright.events.onInputOut.add(function(){right=false;});
             buttonright.events.onInputDown.add(function(){right=true;});
             buttonright.events.onInputUp.add(function(){right=false;});
 
-            buttonbottomright = this.game.add.button(160, 486, 'buttondiagonal', null, this, 7, 5, 7, 5);
+            buttonbottomright = this.game.add.button(160, this.world.height - 51, 'buttondiagonal', null, this, 7, 5, 7, 5);
             buttonbottomright.fixedToCamera = true;
             buttonbottomright.events.onInputOver.add(function(){right=true;});
             buttonbottomright.events.onInputOut.add(function(){right=false;});
