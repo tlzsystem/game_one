@@ -21,9 +21,10 @@ BasicGame.Boot.prototype = {
         //  Here we load the assets required for our preloader (in this case a background and a loading bar)
 
 
-        this.load.image('preloaderBackground', 'assets/preloader_background.png');
+        this.load.image('preloaderBackground', 'assets/preLoader_background_2.png');
         this.load.image('preloaderBar', 'assets/preloader_bar.png');
         this.load.image('preloaderBarGray', 'assets/preloader_bar_gray.png');
+        this.load.image('fondo','assets/jungle.png');
 
     },
 
@@ -32,8 +33,8 @@ BasicGame.Boot.prototype = {
 		this.input.maxPointers = 1;
 		this.stage.disableVisibilityChange = true;
 		BasicGame.orientated = true;
-		this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
-		//this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		//this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.scale.minWidth = this.game.width / 2;
 		this.scale.minHeight = this.game.height / 2;
 		this.scale.pageAlignHorizontally = true;

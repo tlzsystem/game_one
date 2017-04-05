@@ -19,8 +19,6 @@ BasicGame.MainMenu.prototype = {
         this.game.soundMute = false;
         this.game.menuSelect = this.add.audio('menuSelect');
 
-		// this.music.play();
-
         this.background = this.add.sprite(0, 0, 'backgroundMenu');
 		var titlePaddingTop = 150;
         this.title = this.add.sprite(this.game.width / 2, titlePaddingTop, 'title');

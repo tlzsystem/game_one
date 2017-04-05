@@ -16,7 +16,7 @@ BasicGame.Preloader.prototype = {
 		//	These are the assets we loaded in Boot.js
 		//	A nice sparkly background and a loading progress bar
 		this.add.sprite(0, 0, 'preloaderBackground');
-
+		//this.add.sprite(0, 0, 'fondo');
 		this.game.paddingBot = 64;
 
 		var barWidth = 600;
@@ -39,7 +39,7 @@ BasicGame.Preloader.prototype = {
         this.load.audio('gaHeartbeat', ['audio/heartbeat.mp3', 'audio/heartbeat.ogg']);
 
         this.load.image('title', 'images/title.png');
-        this.load.image('backgroundMenu', 'images/background_menu.png');
+        this.load.image('backgroundMenu', 'assets/jungle.png');
         this.load.image('play', 'images/control-play.png');
         this.load.audio('menuSelect', ['audio/menuselect.mp3', 'audio/menuselect.ogg']);
         this.load.image('soundOn', 'images/control-sound-on.png');

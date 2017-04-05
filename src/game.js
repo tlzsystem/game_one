@@ -31,7 +31,7 @@ BasicGame.Game.prototype = {
 
 		this.score = 42;
 
-		this.add.sprite(0, 0, 'background');
+		this.add.sprite(0, 0, 'fondo');
         var headY = 25 + 60 / 2;
         this.pauseButton = this.add.button(25 + (60 / 2), headY, 'pause', function() { self.pause(); });
         this.pauseButton.anchor.setTo(0.5, 0.5);
