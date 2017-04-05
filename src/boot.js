@@ -40,6 +40,7 @@ BasicGame.Boot.prototype = {
 		this.scale.minHeight = this.game.height / 2;
 		this.scale.pageAlignHorizontally = true;
 		this.scale.pageAlignVertically = true;
+
 		if (this.game.device.desktop)
 		{
 			this.scale.maxWidth = this.game.width;
@@ -51,14 +52,35 @@ BasicGame.Boot.prototype = {
 		{
 			this.scale.maxWidth = this.game.width * 2.5;
 			this.scale.maxHeight = this.game.height * 2.5;
+			this.scale.pageAlignHorizontally = true;            
+			this.scale.pageAlignVertically = true;    
 			this.scale.forceOrientation(true, false);
 			this.scale.setResizeCallback(this.gameResized, this);
 			this.scale.enterIncorrectOrientation.add(this.enterIncorrectOrientation, this);
 			this.scale.leaveIncorrectOrientation.add(this.leaveIncorrectOrientation, this);
 			//this.scale.setScreenSize(true);
+
+
+
+				 var ow = parseInt(this.game.canvas.style.width,10);
+	 	var oh = parseInt(this.game.canvas.style.height,10);
+	 var r = Math.max(window.innerWidth/ow,window.innerHeight/oh);
+	 var nw = ow*r;var nh = oh*r;
+	 this.game.canvas.style.width = nw+"px";
+	 this.game.canvas.style.height= nh+"px";
+	 this.game.canvas.style.marginLeft = (window.innerWidth/2 - nw/2)+"px"; 
+	 this.game.canvas.style.marginTop = (window.innerHeight/2 - nh/2)+"px";
+	 document.getElementById("game").style.width = window.innerWidth+"px";
+	 document.getElementById("game").style.height = window.innerHeight-1+"px";//The css for body includes 1px top margin, I believe this is the cause for this -1
+	 document.getElementById("game").style.overflow = "hidden";
 		}
+
 		Phaser.ScaleManager.prototype.setScreenSize = Phaser.ScaleManager.prototype.updateLayout;
+
+
+
 		this.state.start('CheckOrientation');
+
 	},
 
 	gameResized: function (width, height) {
