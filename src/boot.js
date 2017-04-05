@@ -32,8 +32,8 @@ BasicGame.Boot.prototype = {
 		this.input.maxPointers = 1;
 		this.stage.disableVisibilityChange = true;
 		BasicGame.orientated = true;
-		//this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
-		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+		//this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.scale.minWidth = this.game.width / 2;
 		this.scale.minHeight = this.game.height / 2;
 		this.scale.pageAlignHorizontally = true;
@@ -49,7 +49,7 @@ BasicGame.Boot.prototype = {
 		{
 			this.scale.maxWidth = this.game.width * 2.5;
 			this.scale.maxHeight = this.game.height * 2.5;
-			this.scale.forceOrientation(false, true);
+			this.scale.forceOrientation(true, false);
 			this.scale.setResizeCallback(this.gameResized, this);
 			this.scale.enterIncorrectOrientation.add(this.enterIncorrectOrientation, this);
 			this.scale.leaveIncorrectOrientation.add(this.leaveIncorrectOrientation, this);
