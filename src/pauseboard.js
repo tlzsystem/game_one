@@ -2,6 +2,7 @@
 var Pauseboard = function(game) {
 	Phaser.Group.call(this, game);
     var gameover, self = this;
+
 	this.refWidth = 426;
 	this.refHeight = 639;
 	this.baseX = (this.game.width - this.refWidth) / 2;
@@ -72,8 +73,20 @@ Pauseboard.prototype.update = function() {
 };
 
 Pauseboard.prototype.show = function() {
-    this.game.add.tween(this).to({y: this.game.height / 2 - this.refHeight / 2 - this.game.paddingBot}, 1000, Phaser.Easing.Bounce.Out, true);
+   var tween = this.game.add.tween(this).to(
+        {y: this.game.height / 2 - this.refHeight / 2 - this.game.paddingBot},
+         1000, Phaser.Easing.Bounce.Out, true);
+    
+
+   tween.onComplete.add(onComplete, this);
+  
+
+    
 };
+function onComplete(){
+    //this.game.paused = true;
+}
+
 
 Pauseboard.prototype.startClick = function() {
     this.y = this.game.height;

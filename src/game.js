@@ -52,7 +52,7 @@ BasicGame.Game.prototype = {
 		this.score = 42;
 		this.add.sprite(0, 0, 'fondo');
         var headY = 25 + 60 / 2;
-        this.pauseButton = this.add.button(25 + (60 / 2), headY, 'pause', function() { self.pause(); });
+        this.pauseButton = this.add.button(400, headY, 'pause', function() { self.pause(); });
         this.pauseButton.anchor.setTo(0.5, 0.5);
 		this.scoreboard = new Scoreboard(this.game);
 		this.add.existing(this.scoreboard);
@@ -196,14 +196,20 @@ BasicGame.Game.prototype = {
 	},
 
     pause: function() {
-        if (!this.game.soundMute) {
-            this.game.menuSelect.play();
+        
+        console.log('apreto pause');
+
+
+
+         if (!this.game.soundMute) {
+                this.game.menuSelect.play();
         }
 
         this.game.add.tween(this.pauseButton.scale).
             to( { x: 1.1, y: 1.1 }, 150, Phaser.Easing.Linear.None, true, 0, 0, true);
 
         this.pauseboard.show();
+
     },
 
 	update: function () {
@@ -276,21 +282,35 @@ BasicGame.Game.prototype = {
         score += 10;
         scoreText.text = 'Player Score: ' + score;
         this.createStar();
+
+        if(player.health<100){
+            player.health = player.health + 10;
+        }
+
     },
     collecStartEnemy: function(enemigo, star){
         star.kill();
         scoreEnemy+=10;
         scoreEnemyText.text = 'Enemy Score: '+scoreEnemy;
         this.createStar();
+         if(enemigo.health<100){
+            enemigo.health = enemigo.health + 10;
+        }
     },
     hitPlayer: function(player, bullets){
         bullets.kill();
-        player.health = player.health - 10;
+        if(player.health>0){
+            player.health = player.health - 10;
+        }
+        
 
     },
     hitEnemy: function(enemigo, bullets){
         bullets.kill();
-        enemigo.health = enemigo.health - 10;
+        if(enemigo.health>0){
+            enemigo.health = enemigo.health - 10;
+        }
+        
     },
     moveEnemy: function(player, enemigo, star){
         
